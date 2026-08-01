@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DictaChantier - Le suivi de chantier à la voix pour artisans</title>
-    <meta name="description" content="Dictez vos comptes-rendus, ajoutez vos photos et vos notes manuelles puis générez vos rapports PDF instantanément.">
+    <meta name="description" content="Dictez vos comptes-rendus, modifiez chaque rubrique à la main, ajoutez vos photos et générez vos rapports PDF.">
     
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,33 +52,15 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo { 
-            display: flex; 
-            align-items: center; 
-            gap: 0.6rem; 
-            text-decoration: none; 
-        }
+        .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
         .logo-icon-box {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #000;
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #000; width: 38px; height: 38px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
         }
-        .logo-text {
-            font-size: 1.35rem;
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            color: var(--text-main);
-        }
-        .logo-text span {
-            color: var(--primary);
-            font-weight: 400;
-        }
+        .logo-text { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.03em; color: var(--text-main); }
+        .logo-text span { color: var(--primary); font-weight: 400; }
 
         nav.desktop-nav { display: none; }
         @media (min-width: 768px) {
@@ -94,52 +76,25 @@
 
         /* BOTTOM NAV MOBILE */
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 65px;
-            background-color: rgba(30, 41, 59, 0.98);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; right: 0; height: 65px;
+            background-color: rgba(30, 41, 59, 0.98); backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border); display: flex;
+            justify-content: space-around; align-items: center; z-index: 1000;
         }
-
-        @media (min-width: 768px) {
-            .bottom-nav { display: none; }
-        }
+        @media (min-width: 768px) { .bottom-nav { display: none; } }
 
         .bottom-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-weight: 600;
-            gap: 2px;
-            width: 25%;
-            height: 100%;
-            transition: color 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--text-muted); text-decoration: none; font-size: 0.7rem; font-weight: 600;
+            gap: 2px; width: 25%; height: 100%; transition: color 0.2s;
         }
-
         .bottom-nav-item.active, .bottom-nav-item:hover { color: var(--primary); }
         .bottom-nav-item i { width: 22px; height: 22px; }
 
         .bottom-nav-mic {
-            background: var(--primary);
-            color: #000;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: -20px;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-            border: 3px solid var(--bg-dark);
+            background: var(--primary); color: #000; width: 48px; height: 48px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin-top: -20px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); border: 3px solid var(--bg-dark);
         }
 
         main { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
@@ -204,30 +159,50 @@
         }
         .upload-btn:hover { border-color: var(--primary); }
 
-        /* RÉSULTATS & NOUVEAU CHAMP DE TEXTE MANUEL */
+        /* RÉSULTATS ÉDITABLES */
         .results-box {
             display: none; background-color: var(--bg-dark); border: 1px solid var(--border);
             border-radius: 0.5rem; padding: 1.25rem; text-align: left; margin-top: 1.5rem;
         }
         .results-box.active { display: block; }
-        .results-box h4 { color: var(--primary); font-size: 0.85rem; text-transform: uppercase; margin: 1.2rem 0 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
-        .results-box ul { padding-left: 1.2rem; font-size: 0.9rem; }
 
-        /* ZONE D'AJOUT MANUEL */
-        .manual-notes-area {
-            width: 100%;
-            min-height: 80px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            color: var(--text-main);
-            padding: 0.75rem;
-            font-size: 0.9rem;
-            resize: vertical;
-            outline: none;
-            margin-top: 0.25rem;
+        .editable-title-input {
+            width: 100%; background: var(--card-bg); border: 1px solid var(--border);
+            color: var(--primary); font-size: 1.1rem; font-weight: 700; padding: 0.6rem;
+            border-radius: 0.4rem; margin-bottom: 1rem; outline: none;
         }
-        .manual-notes-area:focus { border-color: var(--primary); }
+        .editable-title-input:focus { border-color: var(--primary); }
+
+        .rubrique-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin: 1.2rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem;
+        }
+        .rubrique-header h4 {
+            color: var(--primary); font-size: 0.85rem; text-transform: uppercase;
+            display: flex; align-items: center; gap: 0.4rem; margin: 0;
+        }
+
+        .btn-add-item {
+            background: none; border: 1px solid var(--border); color: var(--text-muted);
+            padding: 0.2rem 0.5rem; border-radius: 0.3rem; font-size: 0.75rem; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 0.3rem; transition: all 0.2s;
+        }
+        .btn-add-item:hover { color: var(--text-main); border-color: var(--primary); }
+
+        /* Lignes éditables */
+        .editable-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .editable-row { display: flex; gap: 0.5rem; align-items: center; }
+        .editable-input {
+            flex: 1; background: var(--card-bg); border: 1px solid var(--border);
+            color: var(--text-main); padding: 0.5rem; border-radius: 0.4rem; font-size: 0.9rem; outline: none;
+        }
+        .editable-input:focus { border-color: var(--primary); }
+        
+        .btn-del-item {
+            background: none; border: none; color: var(--danger); cursor: pointer;
+            padding: 0.4rem; display: flex; align-items: center; opacity: 0.7; transition: opacity 0.2s;
+        }
+        .btn-del-item:hover { opacity: 1; }
 
         .btn-success {
             background-color: var(--accent-green); color: #fff; font-weight: 700;
@@ -328,7 +303,7 @@
             </div>
             <h1>Ne perdez plus vos soirées sur la <span>paperasse de chantier</span></h1>
             <p class="subtitle">
-                Dictez vos comptes-rendus, ajoutez vos photos et ajustez vos notes à la main directement sur le terrain.
+                Dictez vos comptes-rendus, rectifiez les rubriques en 1 clic et générez vos rapports PDF instantanément.
             </p>
         </section>
 
@@ -346,8 +321,8 @@
             <!-- ONGLET 1: CRÉATION DU RAPPORT -->
             <div id="tab-nouveau" class="tab-content active">
                 <div class="app-card">
-                    <h2 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Dictée & Suivi Terrain</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Cliquez sur le micro pour parler, joignez des photos puis complétez si besoin.</p>
+                    <h2 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Dictée & Édition Terrain</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Dictez au micro, puis relisez et modifiez chaque point directement avant d'exporter.</p>
 
                     <!-- Bouton Micro -->
                     <button id="micBtn" class="mic-btn" onclick="toggleRecording()">
@@ -366,25 +341,37 @@
                         <div id="photoGrid" class="photo-grid"></div>
                     </div>
 
-                    <!-- Résultats IA + Zone de modification manuelle -->
+                    <!-- RÉSULTATS ÉDITABLES PAR RUBRIQUE -->
                     <div id="resultsBox" class="results-box">
-                        <h3 id="resTitre" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 0.5rem;"></h3>
-                        
-                        <h4><i data-lucide="check-circle"></i> Avancement (IA)</h4>
-                        <ul id="resAvancement"></ul>
+                        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.2rem;">Titre du document :</label>
+                        <input type="text" id="resTitreInput" class="editable-title-input" value="">
 
-                        <h4><i data-lucide="alert-triangle"></i> Réserves & Remarques (IA)</h4>
-                        <ul id="resReserves"></ul>
+                        <!-- Rubrique 1 : Avancement -->
+                        <div class="rubrique-header">
+                            <h4><i data-lucide="check-circle"></i> Avancement des travaux</h4>
+                            <button class="btn-add-item" onclick="addEditableRow('resAvancementContainer')">
+                                <i data-lucide="plus" style="width:12px; height:12px;"></i> Ajouter
+                            </button>
+                        </div>
+                        <div id="resAvancementContainer" class="editable-list"></div>
 
-                        <h4><i data-lucide="shopping-cart"></i> Matériel à commander (IA)</h4>
-                        <ul id="resFournitures"></ul>
+                        <!-- Rubrique 2 : Réserves -->
+                        <div class="rubrique-header">
+                            <h4><i data-lucide="alert-triangle"></i> Réserves & Remarques</h4>
+                            <button class="btn-add-item" onclick="addEditableRow('resReservesContainer')">
+                                <i data-lucide="plus" style="width:12px; height:12px;"></i> Ajouter
+                            </button>
+                        </div>
+                        <div id="resReservesContainer" class="editable-list"></div>
 
-                        <!-- Champ de Texte Complémentaire / Manuel -->
-                        <h4><i data-lucide="edit-3"></i> Complément de note manuel</h4>
-                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem;">
-                            Ajoutez des précisions, dimensions ou consignes particulières au clavier :
-                        </p>
-                        <textarea id="manualNotesInput" class="manual-notes-area" placeholder="Ex: Client présent sur place. Prévoir clé de 13 pour intervention de demain..."></textarea>
+                        <!-- Rubrique 3 : Matériel -->
+                        <div class="rubrique-header">
+                            <h4><i data-lucide="shopping-cart"></i> Matériel à commander</h4>
+                            <button class="btn-add-item" onclick="addEditableRow('resFournituresContainer')">
+                                <i data-lucide="plus" style="width:12px; height:12px;"></i> Ajouter
+                            </button>
+                        </div>
+                        <div id="resFournituresContainer" class="editable-list"></div>
 
                         <button class="btn-success" onclick="saveAndGeneratePDF()">
                             <i data-lucide="file-down"></i> Générer & Archiver le PDF
@@ -404,7 +391,7 @@
         <section id="fonctionnalites" class="features">
             <div class="section-title">
                 <h2>Conçu spécifiquement pour le terrain</h2>
-                <p>Simple, rapide et utilisable même avec des gants de chantier</p>
+                <p>Simple, rapide et 100% contrôlable</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
@@ -413,14 +400,14 @@
                     <p>Comprend le jargon du BTP (BA13, ragréage, disjoncteur...). Dites ce que vous voyez, l'IA trie le texte.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="file-text"></i></div>
-                    <h3>Rapports PDF Pro</h3>
-                    <p>Mise en page instantanée avec votre logo, la date, les photos annotées et vos compléments manuels.</p>
+                    <div class="feature-icon"><i data-lucide="edit-3"></i></div>
+                    <h3>Édition Totale</h3>
+                    <p>Chaque phrase synthétisée reste modifiable au clavier pour corriger un détail ou ajouter une précision.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="wifi-off"></i></div>
-                    <h3>Mode Hors-Ligne</h3>
-                    <p>Continuez à dicter vos notes au sous-sol. Synchronisation automatique au retour du réseau.</p>
+                    <div class="feature-icon"><i data-lucide="file-text"></i></div>
+                    <h3>Export PDF Pro</h3>
+                    <p>Mise en page instantanée avec la date, vos modifications et les photos annotées, prêts à envoyer au client.</p>
                 </div>
             </div>
         </section>
@@ -521,7 +508,6 @@
 
         let isRecording = false;
         let selectedPhotos = [];
-        let currentReportData = null;
         let reportsArchive = JSON.parse(localStorage.getItem('chantierVocal_reports') || '[]');
 
         updateReportCount();
@@ -560,26 +546,61 @@
         }
 
         function processDictation() {
-            currentReportData = {
-                id: Date.now(),
-                date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                titre: "Compte-Rendu - Chantier Rénovation",
-                avancement: ["Pose du carrelage terminée.", "Passage des câbles électriques en attente."],
-                reserves: ["[MOYENNE] Fissure constatée sur la cloison placo."],
-                fournitures: ["2x Sacs de joint blanc 5kg"],
-                photosCount: selectedPhotos.length
+            const initialData = {
+                titre: "Compte-Rendu - Chantier Rénovation SDB",
+                avancement: ["Pose du carrelage sol terminée.", "Passage des câbles électriques pour spots en attente."],
+                reserves: ["Fissure constatée sur la cloison placo mur nord."],
+                fournitures: ["2x Sacs de joint blanc 5kg", "1x Rouleau de bande armée"]
             };
 
-            document.getElementById('resTitre').textContent = currentReportData.titre;
-            document.getElementById('resAvancement').innerHTML = currentReportData.avancement.map(i => `<li>${i}</li>`).join('');
-            document.getElementById('resReserves').innerHTML = currentReportData.reserves.map(i => `<li>${i}</li>`).join('');
-            document.getElementById('resFournitures').innerHTML = currentReportData.fournitures.map(i => `<li>${i}</li>`).join('');
+            // Remplir le titre
+            document.getElementById('resTitreInput').value = initialData.titre;
 
-            // Réinitialiser la zone manuelle
-            document.getElementById('manualNotesInput').value = "";
+            // Remplir les rubriques éditables
+            renderEditableSection('resAvancementContainer', initialData.avancement);
+            renderEditableSection('resReservesContainer', initialData.reserves);
+            renderEditableSection('resFournituresContainer', initialData.fournitures);
 
             document.getElementById('resultsBox').classList.add('active');
-            document.getElementById('statusText').textContent = "Traitement terminé ! Vous pouvez ajuster ou compléter ci-dessous.";
+            document.getElementById('statusText').textContent = "Synthese IA terminée ! Vous pouvez tout modifier ci-dessous.";
+        }
+
+        // Rend une section de lignes éditables
+        function renderEditableSection(containerId, itemsArray) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            itemsArray.forEach(itemText => {
+                addEditableRow(containerId, itemText);
+            });
+        }
+
+        // Ajoute une ligne d'input éditable + bouton supprimer
+        function addEditableRow(containerId, textValue = "") {
+            const container = document.getElementById(containerId);
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'editable-row';
+
+            rowDiv.innerHTML = `
+                <input type="text" class="editable-input" value="${textValue.replace(/"/g, '&quot;')}" placeholder="Saisir un élément...">
+                <button class="btn-del-item" onclick="this.parentElement.remove()" title="Supprimer">
+                    <i data-lucide="trash-2" style="width:16px; height:16px;"></i>
+                </button>
+            `;
+
+            container.appendChild(rowDiv);
+            lucide.createIcons();
+        }
+
+        // Récupère les valeurs sous forme de tableau de textes
+        function getSectionData(containerId) {
+            const container = document.getElementById(containerId);
+            const inputs = container.querySelectorAll('.editable-input');
+            const data = [];
+            inputs.forEach(input => {
+                const val = input.value.trim();
+                if (val.length > 0) data.push(val);
+            });
+            return data;
         }
 
         function handlePhotoUpload(e) {
@@ -610,54 +631,56 @@
         }
 
         function saveAndGeneratePDF() {
-            if (!currentReportData) return;
+            // Lecture des données modifiées à la main par l'artisan
+            const finalData = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                titre: document.getElementById('resTitreInput').value.trim() || "Compte-Rendu de Chantier",
+                avancement: getSectionData('resAvancementContainer'),
+                reserves: getSectionData('resReservesContainer'),
+                fournitures: getSectionData('resFournituresContainer'),
+                photosCount: selectedPhotos.length
+            };
 
-            // Récupérer le texte additionnel saisi par l'artisan
-            const manualText = document.getElementById('manualNotesInput').value.trim();
-            currentReportData.noteManuelle = manualText;
-
-            reportsArchive.unshift(currentReportData);
+            reportsArchive.unshift(finalData);
             localStorage.setItem('chantierVocal_reports', JSON.stringify(reportsArchive));
             updateReportCount();
 
+            // Génération du PDF avec les textes corrigés
             const printWindow = window.open('', '_blank');
             const pdfHtml = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>${currentReportData.titre}</title>
+                    <title>${finalData.titre}</title>
                     <style>
                         body { font-family: Arial, sans-serif; padding: 25px; color: #1e293b; }
-                        h1 { color: #0f172a; border-bottom: 2px solid #f59e0b; padding-bottom: 10px; }
+                        h1 { color: #0f172a; border-bottom: 2px solid #f59e0b; padding-bottom: 10px; margin-bottom: 5px; }
+                        .meta { color: #64748b; font-size: 14px; margin-bottom: 20px; }
                         .section { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
                         .section-title { font-weight: bold; color: #f59e0b; text-transform: uppercase; margin-bottom: 8px; }
+                        ul { margin: 0; padding-left: 20px; }
+                        li { margin-bottom: 5px; }
                     </style>
                 </head>
                 <body>
-                    <h1>Rapport de Chantier - DictaChantier</h1>
-                    <p><strong>Date :</strong> ${currentReportData.date}</p>
+                    <h1>${finalData.titre}</h1>
+                    <div class="meta"><strong>Date :</strong> ${finalData.date}</div>
                     
                     <div class="section">
-                        <div class="section-title">Avancement</div>
-                        <ul>${currentReportData.avancement.map(i => `<li>${i}</li>`).join('')}</ul>
+                        <div class="section-title">🚧 Avancement des travaux</div>
+                        <ul>${finalData.avancement.map(i => `<li>${i}</li>`).join('') || '<li>Aucun élément renseigné</li>'}</ul>
                     </div>
 
                     <div class="section">
-                        <div class="section-title">Réserves</div>
-                        <ul>${currentReportData.reserves.map(i => `<li>${i}</li>`).join('')}</ul>
+                        <div class="section-title">⚠️ Réserves & Points d'attention</div>
+                        <ul>${finalData.reserves.map(i => `<li>${i}</li>`).join('') || '<li>Aucune réserve</li>'}</ul>
                     </div>
 
                     <div class="section">
-                        <div class="section-title">Matériel</div>
-                        <ul>${currentReportData.fournitures.map(i => `<li>${i}</li>`).join('')}</ul>
+                        <div class="section-title">📦 Matériel à commander</div>
+                        <ul>${finalData.fournitures.map(i => `<li>${i}</li>`).join('') || '<li>Rien à commander</li>'}</ul>
                     </div>
-
-                    ${manualText ? `
-                    <div class="section">
-                        <div class="section-title">Notes & Remarques complémentaires</div>
-                        <p style="white-space: pre-wrap; font-size: 14px;">${manualText}</p>
-                    </div>
-                    ` : ''}
 
                     <script>window.onload = function() { window.print(); }<\/script>
                 </body>
@@ -667,7 +690,7 @@
             printWindow.document.write(pdfHtml);
             printWindow.document.close();
 
-            alert("Rapport enregistré avec vos ajouts manuels !");
+            alert("Rapport mis à jour et sauvegardé dans votre historique !");
             switchTab('historique');
         }
 
@@ -707,8 +730,12 @@
                 <body>
                     <h1>${report.titre}</h1>
                     <p><strong>Date :</strong> ${report.date}</p>
+                    <h3>Avancement</h3>
                     <ul>${report.avancement.map(i => `<li>${i}</li>`).join('')}</ul>
-                    ${report.noteManuelle ? `<p><strong>Note complémentaire :</strong> ${report.noteManuelle}</p>` : ''}
+                    <h3>Réserves</h3>
+                    <ul>${report.reserves.map(i => `<li>${i}</li>`).join('')}</ul>
+                    <h3>Matériel</h3>
+                    <ul>${report.fournitures.map(i => `<li>${i}</li>`).join('')}</ul>
                     <script>window.onload = function() { window.print(); }<\/script>
                 </body>
                 </html>
