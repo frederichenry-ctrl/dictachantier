@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DictaChantier - Le suivi de chantier à la voix pour artisans</title>
-    <meta name="description" content="Dictez vos comptes-rendus, ajoutez vos photos de chantier et générez vos rapports PDF instantanément. L'assistant vocal ultime pour les artisans du BTP.">
+    <meta name="description" content="Dictez vos comptes-rendus, ajoutez vos photos et vos notes manuelles puis générez vos rapports PDF instantanément.">
     
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +40,7 @@
             body { padding-bottom: 0; }
         }
 
-        /* --- HEADER & BRANDING LOGO --- */
+        /* HEADER & LOGO */
         header {
             background-color: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(8px);
@@ -52,7 +52,6 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* STYLE LOGO DICTACHANTIER */
         .logo { 
             display: flex; 
             align-items: center; 
@@ -81,7 +80,6 @@
             font-weight: 400;
         }
 
-        /* Navigation haut (Desktop) */
         nav.desktop-nav { display: none; }
         @media (min-width: 768px) {
             nav.desktop-nav { display: block; }
@@ -94,7 +92,7 @@
             }
         }
 
-        /* --- BOTTOM NAV MOBILE (STYLE DICTADEVI) --- */
+        /* BOTTOM NAV MOBILE */
         .bottom-nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -188,6 +186,7 @@
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
+        /* PHOTOS */
         .photo-upload-section { margin: 1.5rem 0; text-align: left; }
         .photo-upload-section label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-muted); }
         .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
@@ -205,18 +204,35 @@
         }
         .upload-btn:hover { border-color: var(--primary); }
 
+        /* RÉSULTATS & NOUVEAU CHAMP DE TEXTE MANUEL */
         .results-box {
             display: none; background-color: var(--bg-dark); border: 1px solid var(--border);
             border-radius: 0.5rem; padding: 1.25rem; text-align: left; margin-top: 1.5rem;
         }
         .results-box.active { display: block; }
-        .results-box h4 { color: var(--primary); font-size: 0.85rem; text-transform: uppercase; margin: 1rem 0 0.5rem; }
+        .results-box h4 { color: var(--primary); font-size: 0.85rem; text-transform: uppercase; margin: 1.2rem 0 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
         .results-box ul { padding-left: 1.2rem; font-size: 0.9rem; }
+
+        /* ZONE D'AJOUT MANUEL */
+        .manual-notes-area {
+            width: 100%;
+            min-height: 80px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text-main);
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            resize: vertical;
+            outline: none;
+            margin-top: 0.25rem;
+        }
+        .manual-notes-area:focus { border-color: var(--primary); }
 
         .btn-success {
             background-color: var(--accent-green); color: #fff; font-weight: 700;
             padding: 0.875rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer;
-            width: 100%; margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            width: 100%; margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
 
         /* HISTORIQUE */
@@ -312,7 +328,7 @@
             </div>
             <h1>Ne perdez plus vos soirées sur la <span>paperasse de chantier</span></h1>
             <p class="subtitle">
-                Dictez vos comptes-rendus, ajoutez vos photos et gérez le matériel à la voix directement sur le terrain.
+                Dictez vos comptes-rendus, ajoutez vos photos et ajustez vos notes à la main directement sur le terrain.
             </p>
         </section>
 
@@ -331,7 +347,7 @@
             <div id="tab-nouveau" class="tab-content active">
                 <div class="app-card">
                     <h2 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Dictée & Suivi Terrain</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Cliquez sur le micro pour parler, joignez des photos puis exportez votre rapport PDF.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Cliquez sur le micro pour parler, joignez des photos puis complétez si besoin.</p>
 
                     <!-- Bouton Micro -->
                     <button id="micBtn" class="mic-btn" onclick="toggleRecording()">
@@ -350,18 +366,25 @@
                         <div id="photoGrid" class="photo-grid"></div>
                     </div>
 
-                    <!-- Résultats -->
+                    <!-- Résultats IA + Zone de modification manuelle -->
                     <div id="resultsBox" class="results-box">
-                        <h3 id="resTitre" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 1rem;"></h3>
+                        <h3 id="resTitre" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 0.5rem;"></h3>
                         
-                        <h4><i data-lucide="check-circle"></i> Avancement</h4>
+                        <h4><i data-lucide="check-circle"></i> Avancement (IA)</h4>
                         <ul id="resAvancement"></ul>
 
-                        <h4><i data-lucide="alert-triangle"></i> Réserves & Remarques</h4>
+                        <h4><i data-lucide="alert-triangle"></i> Réserves & Remarques (IA)</h4>
                         <ul id="resReserves"></ul>
 
-                        <h4><i data-lucide="shopping-cart"></i> Matériel à commander</h4>
+                        <h4><i data-lucide="shopping-cart"></i> Matériel à commander (IA)</h4>
                         <ul id="resFournitures"></ul>
+
+                        <!-- Champ de Texte Complémentaire / Manuel -->
+                        <h4><i data-lucide="edit-3"></i> Complément de note manuel</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem;">
+                            Ajoutez des précisions, dimensions ou consignes particulières au clavier :
+                        </p>
+                        <textarea id="manualNotesInput" class="manual-notes-area" placeholder="Ex: Client présent sur place. Prévoir clé de 13 pour intervention de demain..."></textarea>
 
                         <button class="btn-success" onclick="saveAndGeneratePDF()">
                             <i data-lucide="file-down"></i> Générer & Archiver le PDF
@@ -392,7 +415,7 @@
                 <div class="feature-card">
                     <div class="feature-icon"><i data-lucide="file-text"></i></div>
                     <h3>Rapports PDF Pro</h3>
-                    <p>Mise en page instantanée avec votre logo, la date et les photos annotées, prêts à envoyer à vos clients.</p>
+                    <p>Mise en page instantanée avec votre logo, la date, les photos annotées et vos compléments manuels.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i data-lucide="wifi-off"></i></div>
@@ -443,7 +466,7 @@
         </section>
     </main>
 
-    <!-- MENU MOBILE EN BAS (BOTTOM NAVIGATION) - STYLE DICTADEVI -->
+    <!-- MENU MOBILE EN BAS (BOTTOM NAVIGATION) -->
     <div class="bottom-nav">
         <a href="#app-studio" class="bottom-nav-item active" onclick="switchTab('nouveau')">
             <i data-lucide="file-plus"></i>
@@ -552,8 +575,11 @@
             document.getElementById('resReserves').innerHTML = currentReportData.reserves.map(i => `<li>${i}</li>`).join('');
             document.getElementById('resFournitures').innerHTML = currentReportData.fournitures.map(i => `<li>${i}</li>`).join('');
 
+            // Réinitialiser la zone manuelle
+            document.getElementById('manualNotesInput').value = "";
+
             document.getElementById('resultsBox').classList.add('active');
-            document.getElementById('statusText').textContent = "Traitement terminé !";
+            document.getElementById('statusText').textContent = "Traitement terminé ! Vous pouvez ajuster ou compléter ci-dessous.";
         }
 
         function handlePhotoUpload(e) {
@@ -586,6 +612,10 @@
         function saveAndGeneratePDF() {
             if (!currentReportData) return;
 
+            // Récupérer le texte additionnel saisi par l'artisan
+            const manualText = document.getElementById('manualNotesInput').value.trim();
+            currentReportData.noteManuelle = manualText;
+
             reportsArchive.unshift(currentReportData);
             localStorage.setItem('chantierVocal_reports', JSON.stringify(reportsArchive));
             updateReportCount();
@@ -606,9 +636,29 @@
                 <body>
                     <h1>Rapport de Chantier - DictaChantier</h1>
                     <p><strong>Date :</strong> ${currentReportData.date}</p>
-                    <div class="section"><div class="section-title">Avancement</div><ul>${currentReportData.avancement.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                    <div class="section"><div class="section-title">Réserves</div><ul>${currentReportData.reserves.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                    <div class="section"><div class="section-title">Matériel</div><ul>${currentReportData.fournitures.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    
+                    <div class="section">
+                        <div class="section-title">Avancement</div>
+                        <ul>${currentReportData.avancement.map(i => `<li>${i}</li>`).join('')}</ul>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Réserves</div>
+                        <ul>${currentReportData.reserves.map(i => `<li>${i}</li>`).join('')}</ul>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Matériel</div>
+                        <ul>${currentReportData.fournitures.map(i => `<li>${i}</li>`).join('')}</ul>
+                    </div>
+
+                    ${manualText ? `
+                    <div class="section">
+                        <div class="section-title">Notes & Remarques complémentaires</div>
+                        <p style="white-space: pre-wrap; font-size: 14px;">${manualText}</p>
+                    </div>
+                    ` : ''}
+
                     <script>window.onload = function() { window.print(); }<\/script>
                 </body>
                 </html>
@@ -617,7 +667,7 @@
             printWindow.document.write(pdfHtml);
             printWindow.document.close();
 
-            alert("Rapport enregistré dans votre historique !");
+            alert("Rapport enregistré avec vos ajouts manuels !");
             switchTab('historique');
         }
 
@@ -658,6 +708,7 @@
                     <h1>${report.titre}</h1>
                     <p><strong>Date :</strong> ${report.date}</p>
                     <ul>${report.avancement.map(i => `<li>${i}</li>`).join('')}</ul>
+                    ${report.noteManuelle ? `<p><strong>Note complémentaire :</strong> ${report.noteManuelle}</p>` : ''}
                     <script>window.onload = function() { window.print(); }<\/script>
                 </body>
                 </html>
