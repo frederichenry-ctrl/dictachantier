@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChantierVocal - Le suivi de chantier à la voix pour artisans</title>
+    <meta name="description" content="Dictez vos comptes-rendus, remarques et besoins en fournitures directement sur le chantier. L'IA s'occupe du reste.">
+    
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --accent-green: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .logo i {
+            color: var(--primary);
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: 2rem auto 4rem;
+            padding: 0 1.5rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 3.5rem; }
+        }
+
+        h1 span {
+            color: var(--primary);
+        }
+
+        p.subtitle {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 480px;
+            margin: 0 auto 3rem;
+        }
+
+        @media (min-width: 500px) {
+            .cta-form {
+                flex-direction: row;
+            }
+        }
+
+        .cta-form input[type="email"], .input-field {
+            flex: 1;
+            padding: 0.875rem 1.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .cta-form input[type="email"]:focus, .input-field:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #000;
+            font-weight: 700;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Démo Interactive / Module App */
+        .demo-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .mic-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: #000;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+            margin: 1.5rem auto;
+            transition: all 0.2s ease;
+        }
+
+        .mic-btn:active { transform: scale(0.95); }
+
+        .mic-btn.recording {
+            background: var(--danger);
+            color: #fff;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .results-box {
+            display: none;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+
+        .results-box.active { display: block; }
+
+        .results-box h4 {
+            color: var(--primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .results-box ul {
+            padding-left: 1.2rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .results-box li { margin-bottom: 0.25rem; }
+
+        /* Grille de fonctionnalités */
+        .features {
+            max-width: 1100px;
+            margin: 5rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .features {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 0.75rem;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--primary);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i data-lucide="mic"></i>
+            <span>ChantierVocal</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="badge">
+                <i data-lucide="sparkles"></i>
+                <span>IA Vocale Dédiée au BTP</span>
+            </div>
+
+            <h1>Ne perdez plus votre soirée sur la <span>paperasse de chantier</span></h1>
+
+            <p class="subtitle">
+                Dictez vos comptes-rendus, vos réserves et vos commandes de matériel en marchant sur le chantier. L'IA génère vos rapports et devis en quelques secondes.
+            </p>
+
+            <form class="cta-form" onsubmit="handleWaitlist(event)">
+                <input type="email" id="userEmail" placeholder="Entrez votre email professionnel..." required>
+                <button type="submit" class="btn-primary">
+                    Rejoindre la Bêta
+                    <i data-lucide="arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Démo Interactive -->
+            <div class="demo-container">
+                <div class="demo-title">
+                    <i data-lucide="play-circle" style="color: var(--primary);"></i>
+                    <span>Tester le Démonstrateur Vocal</span>
+                </div>
+                
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    Cliquez sur le micro, dites une phrase de chantier (ou testez la simulation), puis observez la structuration instantanée.
+                </p>
+
+                <button id="micBtn" class="mic-btn" onclick="toggleRecording()">
+                    <i data-lucide="mic" id="micIcon" style="width:36px; height:36px;"></i>
+                    <span id="btnText">PARLER</span>
+                </button>
+
+                <div id="statusText" class="status-text">Cliquez pour démarrer la dictée</div>
+
+                <div id="resultsBox" class="results-box">
+                    <h4><i data-lucide="check-circle"></i> Avancement extrait</h4>
+                    <ul id="resAvancement"></ul>
+
+                    <h4><i data-lucide="alert-triangle"></i> Réserves & Points d'attention</h4>
+                    <ul id="resReserves"></ul>
+
+                    <h4><i data-lucide="shopping-cart"></i> Fournitures à commander</h4>
+                    <ul id="resFournitures"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <h3>100% Mobile & Mains Libres</h3>
+                <p>Un seul bouton géant. Parlez avec vos gants ou les mains sales, l'application comprend le jargon du bâtiment.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="file-text"></i>
+                </div>
+                <h3>Rapports PDF Instantanés</h3>
+                <p>Vos dictées sont converties en fiches claires avec photos annotées, prêtes à être envoyées au client par WhatsApp.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i data-lucide="wifi-off"></i>
+                </div>
+                <h3>Fonctionne Hors-Ligne</h3>
+                <p>Pas de réseau dans le sous-sol ? L'application enregistre vos notes en local et synchronise dès le retour de la connexion.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 ChantierVocal - La solution vocale pour les artisans du BTP.</p>
+    </footer>
+
+    <script>
+        // Initialisation des icônes Lucide
+        lucide.createIcons();
+
+        let isRecording = false;
+        let mediaRecorder;
+        let audioChunks = [];
+
+        function handleWaitlist(e) {
+            e.preventDefault();
+            const email = document.getElementById('userEmail').value;
+            alert(`Merci ! L'adresse ${email} a bien été ajoutée à la liste d'attente.`);
+            document.getElementById('userEmail').value = '';
+        }
+
+        async function toggleRecording() {
+            const btn = document.getElementById('micBtn');
+            const btnText = document.getElementById('btnText');
+            const status = document.getElementById('statusText');
+            const resultsBox = document.getElementById('resultsBox');
+
+            if (!isRecording) {
+                // Tenter d'accéder au microphone
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+                    mediaRecorder.onstop = processAudioData;
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    btn.classList.add('recording');
+                    btnText.textContent = "STOP";
+                    status.textContent = "Enregistrement en cours... Parlez maintenant.";
+                    resultsBox.classList.remove('active');
+                } catch (err) {
+                    // Si pas d'accès micro (ex: HTTP au lieu de HTTPS), lancer une simulation
+                    runSimulation();
+                }
+            } else {
+                if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                    mediaRecorder.stop();
+                }
+                isRecording = false;
+                btn.classList.remove('recording');
+                btnText.textContent = "PARLER";
+                status.textContent = "Analyse et structuration par l'IA en cours...";
+            }
+        }
+
+        async function processAudioData() {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'dictee.mp3');
+
+            try {
+                // Appel vers le backend si déployé
+                const response = await fetch('/api/v1/process-audio', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    renderData(data.donnees_structurees);
+                } else {
+                    runSimulation();
+                }
+            } catch (err) {
+                // Fallback simulation pour démo statique
+                runSimulation();
+            }
+        }
+
+        function runSimulation() {
+            const status = document.getElementById('statusText');
+            const btn = document.getElementById('micBtn');
+            const btnText = document.getElementById('btnText');
+
+            isRecording = false;
+            btn.classList.remove('recording');
+            btnText.textContent = "PARLER";
+            status.textContent = "Traitement de la dictée (Mode Démo)...";
+
+            setTimeout(() => {
+                const fakeData = {
+                    avancement: ["Pose du carrelage terminée dans la salle de bain.", "Jointoiement des murs en cours."],
+                    reserves: ["[MOYENNE] Fissure constatée sur le placo mur nord."],
+                    fournitures: ["2x Sacs de joint blanc 5kg (Cédéo)"]
+                };
+
+                document.getElementById('resAvancement').innerHTML = fakeData.avancement.map(i => `<li>${i}</li>`).join('');
+                document.getElementById('resReserves').innerHTML = fakeData.reserves.map(i => `<li>${i}</li>`).join('');
+                document.getElementById('resFournitures').innerHTML = fakeData.fournitures.map(i => `<li>${i}</li>`).join('');
+
+                document.getElementById('resultsBox').classList.add('active');
+                status.textContent = "Analyse terminée ! Exemple de résultat ci-dessous :";
+            }, 1200);
+        }
+
+        function renderData(data) {
+            const status = document.getElementById('statusText');
+            document.getElementById('resAvancement').innerHTML = (data.avancement_travaux || []).map(i => `<li>${i}</li>`).join('') || '<li>Aucun élément</li>';
+            document.getElementById('resReserves').innerHTML = (data.reserves_et_problemes || []).map(i => `<li>[${i.gravite}] ${i.description}</li>`).join('') || '<li>Aucune réserve</li>';
+            document.getElementById('resFournitures').innerHTML = (data.fournitures_a_commander || []).map(i => `<li>${i.quantite} ${i.unite} - ${i.article}</li>`).join('') || '<li>Rien à commander</li>';
+
+            document.getElementById('resultsBox').classList.add('active');
+            status.textContent = "Traitement IA terminé avec succès !";
+        }
+    </script>
+</body>
+</html>
