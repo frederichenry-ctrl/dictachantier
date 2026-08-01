@@ -26,11 +26,23 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; padding: 0; overflow-x: hidden; }
+        
+        body { 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            padding: 0; 
+            overflow-x: hidden;
+            padding-bottom: 70px; /* Espace réservé pour la barre mobile du bas */
+        }
 
-        /* --- HEADER & NAVIGATION --- */
+        @media (min-width: 768px) {
+            body { padding-bottom: 0; }
+        }
+
+        /* --- HEADER DESKTOP --- */
         header {
-            background-color: rgba(15, 23, 42, 0.9);
+            background-color: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(8px);
             position: sticky; top: 0; z-index: 100;
             border-bottom: 1px solid var(--border);
@@ -42,32 +54,93 @@
         .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.25rem; font-weight: 800; color: var(--text-main); text-decoration: none; }
         .logo i { color: var(--primary); }
 
-        nav ul { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
-        nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
-        nav a:hover { color: var(--primary); }
-        .btn-nav-cta {
-            background-color: var(--primary); color: #000 !important; font-weight: 700 !important;
-            padding: 0.5rem 1rem; border-radius: 0.5rem; transition: background-color 0.2s;
+        /* Navigation haut (Masquée sur Mobile, active sur PC) */
+        nav.desktop-nav { display: none; }
+        @media (min-width: 768px) {
+            nav.desktop-nav { display: block; }
+            nav.desktop-nav ul { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
+            nav.desktop-nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+            nav.desktop-nav a:hover { color: var(--primary); }
+            .btn-nav-cta {
+                background-color: var(--primary); color: #000 !important; font-weight: 700 !important;
+                padding: 0.5rem 1rem; border-radius: 0.5rem; transition: background-color 0.2s;
+            }
         }
-        .btn-nav-cta:hover { background-color: var(--primary-hover); }
+
+        /* --- NAVIGATION MOBILE FIXE EN BAS (STYLE DICTADEVI) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 65px;
+            background-color: rgba(30, 41, 59, 0.98);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav { display: none; } /* Caché sur grand écran */
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            gap: 2px;
+            width: 25%;
+            height: 100%;
+            transition: color 0.2s;
+        }
+
+        .bottom-nav-item.active, .bottom-nav-item:hover {
+            color: var(--primary);
+        }
+
+        .bottom-nav-item i {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Bouton central d'action vocale sur le menu bas */
+        .bottom-nav-mic {
+            background: var(--primary);
+            color: #000;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -20px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+            border: 3px solid var(--bg-dark);
+        }
 
         main { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
 
         /* --- HERO SECTION --- */
-        .hero { text-align: center; padding: 4rem 0 3rem; }
+        .hero { text-align: center; padding: 3rem 0 2rem; }
         .badge {
             display: inline-flex; align-items: center; gap: 0.5rem;
             background-color: rgba(245, 158, 11, 0.1); color: var(--primary);
             padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600;
             margin-bottom: 1.5rem; border: 1px solid rgba(245, 158, 11, 0.2);
         }
-        h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.25rem; letter-spacing: -0.02em; }
+        h1 { font-size: 2.25rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.25rem; letter-spacing: -0.02em; }
         @media (min-width: 768px) { h1 { font-size: 3.5rem; } }
         h1 span { color: var(--primary); }
         p.subtitle { font-size: 1.125rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 2rem; }
 
-        /* --- APP STUDIO (MODULE APPLICATION) --- */
-        .app-section { margin: 3rem 0; scroll-margin-top: 5rem; }
+        /* --- APP STUDIO --- */
+        .app-section { margin: 2rem 0; scroll-margin-top: 5rem; }
         .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
         .tab-btn {
             background: none; border: none; color: var(--text-muted); padding: 0.75rem 1.25rem;
@@ -126,7 +199,7 @@
             width: 100%; margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
 
-        /* --- HISTORIQUE --- */
+        /* HISTORIQUE */
         .reports-list { display: flex; flex-direction: column; gap: 1rem; }
         .report-card {
             background-color: var(--card-bg); border: 1px solid var(--border);
@@ -139,17 +212,17 @@
             border-radius: 0.5rem; font-weight: 600; cursor: pointer;
             display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem;
         }
-        .btn-download:hover { background-color: var(--primary); color: #000; }
 
-        /* --- FONCTIONNALITÉS --- */
-        .features { padding: 4rem 0; scroll-margin-top: 4rem; }
-        .section-title { text-align: center; margin-bottom: 3rem; }
+        /* FONCTIONNALITÉS & TARIFS */
+        .features, .pricing { padding: 3rem 0; scroll-margin-top: 4rem; }
+        .section-title { text-align: center; margin-bottom: 2.5rem; }
         .section-title h2 { font-size: 2rem; font-weight: 800; }
         .section-title p { color: var(--text-muted); }
 
-        .features-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        @media (min-width: 768px) { .features-grid { grid-template-columns: repeat(3, 1fr); } }
-        .feature-card {
+        .features-grid, .pricing-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 768px) { .features-grid, .pricing-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .feature-card, .price-card {
             background-color: var(--card-bg); border: 1px solid var(--border);
             padding: 2rem; border-radius: 0.75rem;
         }
@@ -159,32 +232,16 @@
             justify-content: center; margin-bottom: 1.25rem;
         }
 
-        /* --- SECTION TARIFS --- */
-        .pricing { padding: 4rem 0; scroll-margin-top: 4rem; }
-        .pricing-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        @media (min-width: 768px) { .pricing-grid { grid-template-columns: repeat(3, 1fr); } }
-        
-        .price-card {
-            background-color: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 1rem; padding: 2rem; display: flex; flex-direction: column; position: relative;
-        }
         .price-card.popular { border-color: var(--primary); box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); }
-        .popular-badge {
-            position: absolute; top: -12px; right: 20px; background-color: var(--primary);
-            color: #000; font-size: 0.75rem; font-weight: 800; padding: 0.25rem 0.75rem;
-            border-radius: 9999px; text-transform: uppercase;
-        }
-        .price-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
-        .price { font-size: 2.5rem; font-weight: 800; margin: 1rem 0; color: var(--text-main); }
-        .price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
-        .price-features { list-style: none; margin: 1.5rem 0; flex: 1; }
+        .price { font-size: 2.25rem; font-weight: 800; margin: 1rem 0; }
+        .price-features { list-style: none; margin: 1.5rem 0; }
         .price-features li { margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
-        .price-features i { color: var(--accent-green); width: 18px; }
+        .price-features i { color: var(--accent-green); }
 
-        /* --- FOOTER --- */
+        /* FOOTER */
         footer {
             background-color: #090d16; border-top: 1px solid var(--border);
-            padding: 3rem 1.5rem 1.5rem; margin-top: 4rem;
+            padding: 3rem 1.5rem 2rem; margin-top: 4rem;
         }
         .footer-container {
             max-width: 1100px; margin: 0 auto; display: grid;
@@ -192,10 +249,10 @@
         }
         @media (min-width: 768px) { .footer-container { grid-template-columns: 2fr 1fr 1fr; } }
         
-        .footer-col h4 { font-size: 1rem; margin-bottom: 1rem; color: var(--text-main); }
+        .footer-col h4 { font-size: 1rem; margin-bottom: 1rem; }
         .footer-col ul { list-style: none; }
         .footer-col li { margin-bottom: 0.5rem; }
-        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
         .footer-col a:hover { color: var(--primary); }
 
         .footer-bottom {
@@ -206,19 +263,19 @@
 </head>
 <body>
 
-    <!-- HEADER & MENU NAVIGATION -->
+    <!-- HEADER DESKTOP -->
     <header>
         <div class="header-container">
             <a href="#" class="logo">
                 <i data-lucide="mic"></i>
                 <span>ChantierVocal</span>
             </a>
-            <nav>
+            <nav class="desktop-nav">
                 <ul>
                     <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-                    <li><a href="#app-studio">Tester l'App</a></li>
+                    <li><a href="#app-studio">Dictée Vocale</a></li>
                     <li><a href="#tarifs">Tarifs</a></li>
-                    <li><a href="#app-studio" class="btn-nav-cta">Connexion / Bêta</a></li>
+                    <li><a href="#app-studio" class="btn-nav-cta">Lancer l'App</a></li>
                 </ul>
             </nav>
         </div>
@@ -233,7 +290,7 @@
             </div>
             <h1>Ne perdez plus vos soirées sur la <span>paperasse de chantier</span></h1>
             <p class="subtitle">
-                Dictez vos comptes-rendus, ajoutez vos photos et gérez le matériel à la voix directement sur le terrain. L'IA génère vos rapports PDF instantanément.
+                Dictez vos comptes-rendus, ajoutez vos photos et gérez le matériel à la voix directement sur le terrain.
             </p>
         </section>
 
@@ -241,7 +298,7 @@
         <section id="app-studio" class="app-section">
             <div class="tabs">
                 <button class="tab-btn active" onclick="switchTab('nouveau')">
-                    <i data-lucide="plus-circle"></i> Nouveau Rapport Vocal
+                    <i data-lucide="plus-circle"></i> Nouveau Rapport
                 </button>
                 <button class="tab-btn" onclick="switchTab('historique')">
                     <i data-lucide="folder-archive"></i> Mes Rapports PDF (<span id="reportCount">0</span>)
@@ -298,7 +355,7 @@
             </div>
         </section>
 
-        <!-- SECTION FONCTIONNALITÉS -->
+        <!-- FONCTIONNALITÉS -->
         <section id="fonctionnalites" class="features">
             <div class="section-title">
                 <h2>Conçu spécifiquement pour le terrain</h2>
@@ -318,64 +375,75 @@
                 <div class="feature-card">
                     <div class="feature-icon"><i data-lucide="wifi-off"></i></div>
                     <h3>Mode Hors-Ligne</h3>
-                    <p>Continuez à dicter vos notes au sous-sol ou dans les zones rurales. La synchronisation se fait au retour du réseau.</p>
+                    <p>Continuez à dicter vos notes au sous-sol. Synchronisation automatique au retour du réseau.</p>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION TARIFS -->
+        <!-- TARIFS -->
         <section id="tarifs" class="pricing">
             <div class="section-title">
                 <h2>Tarification simple et transparente</h2>
                 <p>Sans engagement. Rentabilisé dès votre premier chantier.</p>
             </div>
             <div class="pricing-grid">
-                <!-- Découverte -->
                 <div class="price-card">
                     <h3>Découverte</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">Pour tester l'outil sur 2-3 chantiers</p>
                     <div class="price">0 € <span>/ mois</span></div>
                     <ul class="price-features">
                         <li><i data-lucide="check"></i> 5 Rapports vocaux / mois</li>
                         <li><i data-lucide="check"></i> Export PDF standard</li>
-                        <li><i data-lucide="check"></i> Saisie de photos (max 2/rapport)</li>
                     </ul>
-                    <a href="#app-studio" class="btn-download" style="text-align: center; justify-content: center;">Commencer gratuitement</a>
+                    <a href="#app-studio" class="btn-download" style="text-align: center; justify-content: center;">Tester gratuitement</a>
                 </div>
 
-                <!-- Artisan Solo -->
                 <div class="price-card popular">
-                    <div class="popular-badge">Populaire</div>
                     <h3>Artisan Pro</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">Idéal pour les indépendants du bâtiment</p>
                     <div class="price">29 € <span>/ mois HT</span></div>
                     <ul class="price-features">
                         <li><i data-lucide="check"></i> Rapports illimités</li>
-                        <li><i data-lucide="check"></i> Export PDF personnalisé (Logo & Coordonnées)</li>
-                        <li><i data-lucide="check"></i> Photos illimitées par rapport</li>
-                        <li><i data-lucide="check"></i> Support prioritaire par WhatsApp</li>
+                        <li><i data-lucide="check"></i> Export PDF personnalisé (Logo)</li>
+                        <li><i data-lucide="check"></i> Photos illimitées</li>
                     </ul>
-                    <a href="#app-studio" class="btn-nav-cta" style="text-align: center; text-decoration: none;">Tester 14 jours gratuits</a>
+                    <a href="#app-studio" class="btn-download" style="background-color: var(--primary); color:#000; text-align: center; justify-content: center;">Essai gratuit 14j</a>
                 </div>
 
-                <!-- Équipe / TPE -->
                 <div class="price-card">
                     <h3>Équipe / TPE</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">Pour gérer plusieurs conducteurs de travaux</p>
                     <div class="price">69 € <span>/ mois HT</span></div>
                     <ul class="price-features">
-                        <li><i data-lucide="check"></i> Jusqu'à 5 utilisateurs inclus</li>
-                        <li><i data-lucide="check"></i> Centralisation de tous les chantiers</li>
-                        <li><i data-lucide="check"></i> Intégration comptabilité / Devis</li>
-                        <li><i data-lucide="check"></i> Espace de stockage sécurisé Cloud</li>
+                        <li><i data-lucide="check"></i> Jusqu'à 5 utilisateurs</li>
+                        <li><i data-lucide="check"></i> Centralisation multi-chantiers</li>
                     </ul>
-                    <a href="#app-studio" class="btn-download" style="text-align: center; justify-content: center;">Contact Équipe</a>
+                    <a href="#app-studio" class="btn-download" style="text-align: center; justify-content: center;">Offre Équipe</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- FOOTER AVEC MENTIONS LÉGALES -->
+    <!-- MENU MOBILE EN BAS (BOTTOM NAVIGATION) - STYLE DICTADEVI -->
+    <div class="bottom-nav">
+        <a href="#app-studio" class="bottom-nav-item active" onclick="switchTab('nouveau')">
+            <i data-lucide="file-plus"></i>
+            <span>Nouveau</span>
+        </a>
+        <a href="#app-studio" class="bottom-nav-item" onclick="toggleRecording()">
+            <div class="bottom-nav-mic">
+                <i data-lucide="mic" style="color:#000;"></i>
+            </div>
+            <span style="margin-top:2px;">Dictée</span>
+        </a>
+        <a href="#app-studio" class="bottom-nav-item" onclick="switchTab('historique')">
+            <i data-lucide="folder"></i>
+            <span>Rapports</span>
+        </a>
+        <a href="#tarifs" class="bottom-nav-item">
+            <i data-lucide="tag"></i>
+            <span>Tarifs</span>
+        </a>
+    </div>
+
+    <!-- FOOTER -->
     <footer>
         <div class="footer-container">
             <div class="footer-col">
@@ -384,28 +452,20 @@
                     <span>ChantierVocal</span>
                 </a>
                 <p style="color: var(--text-muted); font-size: 0.85rem;">
-                    La première solution vocale mobile-first pour le suivi de chantier et la rédaction de rapports dans le bâtiment.
+                    La solution vocale mobile pour le suivi de chantier et la rédaction de rapports dans le BTP.
                 </p>
-            </div>
-            <div class="footer-col">
-                <h4>Navigation</h4>
-                <ul>
-                    <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-                    <li><a href="#app-studio">Studio Application</a></li>
-                    <li><a href="#tarifs">Tarifs & Abonnements</a></li>
-                </ul>
             </div>
             <div class="footer-col">
                 <h4>Informations Légales</h4>
                 <ul>
-                    <li><a href="#" onclick="alert('Mentions Légales : ChantierVocal SAS - Capital 1000€ - Contact: contact@chantiervocal.fr'); return false;">Mentions Légales</a></li>
-                    <li><a href="#" onclick="alert('Politique de Confidentialité : Vos données de chantier sont cryptées et stockées en France.'); return false;">Politique de Confidentialité</a></li>
-                    <li><a href="#" onclick="alert('CGU : Conditions Générales d\'Utilisation de la plateforme SaaS.'); return false;">CGU / CGV</a></li>
+                    <li><a href="#" onclick="alert('Mentions Légales : ChantierVocal SAS'); return false;">Mentions Légales</a></li>
+                    <li><a href="#" onclick="alert('Données sécurisées et stockées en France.'); return false;">Confidentialité</a></li>
+                    <li><a href="#" onclick="alert('CGU / CGV'); return false;">CGU / CGV</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 ChantierVocal. Tous droits réservés. Conçu pour les artisans du BTP.
+            &copy; 2026 ChantierVocal. Tous droits réservés.
         </div>
     </footer>
 
@@ -442,12 +502,12 @@
                 isRecording = true;
                 btn.classList.add('recording');
                 btnText.textContent = "STOP";
-                status.textContent = "Écoute en cours... Parlez clairement de votre chantier.";
+                status.textContent = "Écoute en cours... Parlez de votre chantier.";
             } else {
                 isRecording = false;
                 btn.classList.remove('recording');
                 btnText.textContent = "PARLER";
-                status.textContent = "Analyse vocale et association des médias...";
+                status.textContent = "Analyse vocale en cours...";
                 setTimeout(processDictation, 1200);
             }
         }
@@ -458,8 +518,8 @@
                 date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
                 titre: "Compte-Rendu - Chantier Rénovation",
                 avancement: ["Pose du carrelage terminée.", "Passage des câbles électriques en attente."],
-                reserves: ["[MOYENNE] Fissure constatée sur la cloison placo (voir photo 1)."],
-                fournitures: ["2x Sacs de joint blanc 5kg", "1x Rouleau de bande blindée"],
+                reserves: ["[MOYENNE] Fissure constatée sur la cloison placo."],
+                fournitures: ["2x Sacs de joint blanc 5kg"],
                 photosCount: selectedPhotos.length
             };
 
@@ -469,7 +529,7 @@
             document.getElementById('resFournitures').innerHTML = currentReportData.fournitures.map(i => `<li>${i}</li>`).join('');
 
             document.getElementById('resultsBox').classList.add('active');
-            document.getElementById('statusText').textContent = "Traitement terminé ! Votre relevé est prêt.";
+            document.getElementById('statusText').textContent = "Traitement terminé !";
         }
 
         function handlePhotoUpload(e) {
@@ -515,44 +575,17 @@
                     <style>
                         body { font-family: Arial, sans-serif; padding: 25px; color: #1e293b; }
                         h1 { color: #0f172a; border-bottom: 2px solid #f59e0b; padding-bottom: 10px; }
-                        .meta { color: #64748b; font-size: 14px; margin-bottom: 20px; }
                         .section { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
                         .section-title { font-weight: bold; color: #f59e0b; text-transform: uppercase; margin-bottom: 8px; }
-                        .photos-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-                        .photo-img { width: 140px; height: 100px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc; }
                     </style>
                 </head>
                 <body>
                     <h1>Rapport de Chantier</h1>
-                    <div class="meta"><strong>Date :</strong> ${currentReportData.date}</div>
-                    
-                    <div class="section">
-                        <div class="section-title">🚧 Avancement</div>
-                        <ul>${currentReportData.avancement.map(i => `<li>${i}</li>`).join('')}</ul>
-                    </div>
-
-                    <div class="section">
-                        <div class="section-title">⚠️ Réserves & Points d'attention</div>
-                        <ul>${currentReportData.reserves.map(i => `<li>${i}</li>`).join('')}</ul>
-                    </div>
-
-                    <div class="section">
-                        <div class="section-title">📦 Matériel à commander</div>
-                        <ul>${currentReportData.fournitures.map(i => `<li>${i}</li>`).join('')}</ul>
-                    </div>
-
-                    ${selectedPhotos.length > 0 ? `
-                        <div class="section">
-                            <div class="section-title">📸 Photos annexées (${selectedPhotos.length})</div>
-                            <div class="photos-container">
-                                ${selectedPhotos.map(p => `<img src="${p}" class="photo-img"/>`).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <script>
-                        window.onload = function() { window.print(); }
-                    <\/script>
+                    <p><strong>Date :</strong> ${currentReportData.date}</p>
+                    <div class="section"><div class="section-title">Avancement</div><ul>${currentReportData.avancement.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <div class="section"><div class="section-title">Réserves</div><ul>${currentReportData.reserves.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <div class="section"><div class="section-title">Matériel</div><ul>${currentReportData.fournitures.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <script>window.onload = function() { window.print(); }<\/script>
                 </body>
                 </html>
             `;
@@ -567,7 +600,7 @@
         function renderHistory() {
             const listContainer = document.getElementById('reportsList');
             if (reportsArchive.length === 0) {
-                listContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Aucun rapport enregistré pour le moment.</p>`;
+                listContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Aucun rapport enregistré.</p>`;
                 return;
             }
 
@@ -575,10 +608,10 @@
                 <div class="report-card">
                     <div>
                         <h3>${report.titre}</h3>
-                        <p style="font-size:0.85rem; color:var(--text-muted);"><i data-lucide="calendar" style="width:14px; height:14px; vertical-align:middle;"></i> ${report.date} • ${report.photosCount || 0} photo(s)</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">${report.date} • ${report.photosCount || 0} photo(s)</p>
                     </div>
                     <button class="btn-download" onclick="downloadArchivedPDF(${report.id})">
-                        <i data-lucide="download"></i> Télécharger PDF
+                        <i data-lucide="download"></i> PDF
                     </button>
                 </div>
             `).join('');
@@ -595,19 +628,12 @@
                 <html>
                 <head>
                     <title>${report.titre}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 20px; }
-                        h1 { color: #0f172a; border-bottom: 2px solid #f59e0b; padding-bottom: 10px; }
-                        .section { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
-                        .section-title { font-weight: bold; color: #f59e0b; text-transform: uppercase; margin-bottom: 8px; }
-                    </style>
+                    <style>body { font-family: Arial, sans-serif; padding: 20px; }</style>
                 </head>
                 <body>
                     <h1>${report.titre}</h1>
                     <p><strong>Date :</strong> ${report.date}</p>
-                    <div class="section"><div class="section-title">Avancement</div><ul>${report.avancement.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                    <div class="section"><div class="section-title">Réserves</div><ul>${report.reserves.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                    <div class="section"><div class="section-title">Matériel</div><ul>${report.fournitures.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <ul>${report.avancement.map(i => `<li>${i}</li>`).join('')}</ul>
                     <script>window.onload = function() { window.print(); }<\/script>
                 </body>
                 </html>
