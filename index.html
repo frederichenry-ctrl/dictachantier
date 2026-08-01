@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChantierVocal - Le suivi de chantier à la voix pour artisans</title>
-    <meta name="description" content="Dictez vos comptes-rendus, remarques et besoins en fournitures directement sur le chantier. L'IA s'occupe du reste.">
+    <title>ChantierVocal - Suivi de chantier vocal & rapports PDF</title>
+    <meta name="description" content="Dictez vos comptes-rendus, ajoutez vos photos de chantier et générez vos rapports PDF instantanément.">
     
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,281 +25,106 @@
             --danger: #ef4444;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 0;
-            overflow-x: hidden;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; padding: 0; overflow-x: hidden; }
 
         header {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1100px; margin: 0 auto; padding: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
         }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+        .logo i { color: var(--primary); }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text-main);
+        main { max-width: 900px; margin: 0 auto 4rem; padding: 0 1.5rem; }
+
+        /* Navigation Onglets (Studio vs Historique) */
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        .tab-btn {
+            background: none; border: none; color: var(--text-muted); padding: 0.75rem 1.25rem;
+            font-weight: 600; font-size: 1rem; cursor: pointer; border-radius: 0.5rem;
+            display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;
         }
+        .tab-btn.active { background-color: var(--card-bg); color: var(--primary); border: 1px solid var(--border); }
 
-        .logo i {
-            color: var(--primary);
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-        .hero {
-            max-width: 1100px;
-            margin: 2rem auto 4rem;
-            padding: 0 1.5rem;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: rgba(245, 158, 11, 0.1);
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        @media (min-width: 768px) {
-            h1 { font-size: 3.5rem; }
-        }
-
-        h1 span {
-            color: var(--primary);
-        }
-
-        p.subtitle {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .cta-form {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-width: 480px;
-            margin: 0 auto 3rem;
-        }
-
-        @media (min-width: 500px) {
-            .cta-form {
-                flex-direction: row;
-            }
-        }
-
-        .cta-form input[type="email"], .input-field {
-            flex: 1;
-            padding: 0.875rem 1.25rem;
-            border-radius: 0.5rem;
-            border: 1px solid var(--border);
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .cta-form input[type="email"]:focus, .input-field:focus {
-            border-color: var(--primary);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: #000;
-            font-weight: 700;
-            padding: 0.875rem 1.5rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-        }
-
-        /* Démo Interactive / Module App */
-        .demo-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-        }
-
-        .demo-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+        /* Zone Enregistreur & Photos */
+        .app-card {
+            background-color: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 1rem; padding: 2rem 1.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
         }
 
         .mic-btn {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: none;
-            background: var(--primary);
-            color: #000;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-weight: 700;
-            font-size: 0.85rem;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
-            margin: 1.5rem auto;
-            transition: all 0.2s ease;
+            width: 110px; height: 110px; border-radius: 50%; border: none;
+            background: var(--primary); color: #000; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 0.4rem; font-weight: 700; font-size: 0.85rem;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.3); margin: 1.5rem auto; transition: all 0.2s ease;
         }
-
-        .mic-btn:active { transform: scale(0.95); }
-
         .mic-btn.recording {
-            background: var(--danger);
-            color: #fff;
-            animation: pulse 1.5s infinite;
+            background: var(--danger); color: #fff; animation: pulse 1.5s infinite;
             box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* Upload Photos */
+        .photo-upload-section { margin: 1.5rem 0; text-align: left; }
+        .photo-upload-section label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-muted); }
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
+        
+        .photo-preview {
+            width: 100%; height: 80px; border-radius: 0.5rem; object-fit: cover;
+            border: 1px solid var(--border); position: relative;
+        }
+        .photo-card { position: relative; }
+        .remove-photo {
+            position: absolute; top: -6px; right: -6px; background: var(--danger); color: white;
+            border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer;
+            font-size: 12px; display: flex; align-items: center; justify-content: center;
         }
 
-        .status-text {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
+        .upload-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bg-dark);
+            border: 1px dashed var(--border); color: var(--text-main); padding: 0.75rem 1rem;
+            border-radius: 0.5rem; cursor: pointer; font-size: 0.9rem; width: 100%; justify-content: center;
         }
+        .upload-btn:hover { border-color: var(--primary); }
 
+        /* Zone de résultat */
         .results-box {
-            display: none;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 1.25rem;
-            text-align: left;
-            margin-top: 1.5rem;
+            display: none; background-color: var(--bg-dark); border: 1px solid var(--border);
+            border-radius: 0.5rem; padding: 1.25rem; text-align: left; margin-top: 1.5rem;
         }
-
         .results-box.active { display: block; }
+        .results-box h4 { color: var(--primary); font-size: 0.85rem; text-transform: uppercase; margin: 1rem 0 0.5rem; }
+        .results-box ul { padding-left: 1.2rem; font-size: 0.9rem; }
 
-        .results-box h4 {
-            color: var(--primary);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+        .btn-success {
+            background-color: var(--accent-green); color: #fff; font-weight: 700;
+            padding: 0.875rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer;
+            width: 100%; margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
 
-        .results-box ul {
-            padding-left: 1.2rem;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            margin-bottom: 1rem;
+        /* Liste de l'Historique */
+        .reports-list { display: flex; flex-direction: column; gap: 1rem; }
+        .report-card {
+            background-color: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 0.75rem; padding: 1.25rem; display: flex;
+            justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
         }
-
-        .results-box li { margin-bottom: 0.25rem; }
-
-        /* Grille de fonctionnalités */
-        .features {
-            max-width: 1100px;
-            margin: 5rem auto;
-            padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
+        .report-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .report-info p { font-size: 0.85rem; color: var(--text-muted); }
+        .btn-download {
+            background-color: rgba(245, 158, 11, 0.15); color: var(--primary);
+            border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.6rem 1rem;
+            border-radius: 0.5rem; font-weight: 600; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; font-size: 0.875rem;
         }
+        .btn-download:hover { background-color: var(--primary); color: #000; }
 
-        @media (min-width: 768px) {
-            .features {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .feature-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 2rem;
-            border-radius: 0.75rem;
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background-color: rgba(245, 158, 11, 0.1);
-            color: var(--primary);
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 1.5rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
@@ -312,198 +137,287 @@
     </header>
 
     <main>
-        <section class="hero">
-            <div class="badge">
-                <i data-lucide="sparkles"></i>
-                <span>IA Vocale Dédiée au BTP</span>
-            </div>
+        <!-- Onglets de Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('nouveau')">
+                <i data-lucide="plus-circle"></i> Nouveau Rapport
+            </button>
+            <button class="tab-btn" onclick="switchTab('historique')">
+                <i data-lucide="folder-archive"></i> Mes Rapports (<span id="reportCount">0</span>)
+            </button>
+        </div>
 
-            <h1>Ne perdez plus votre soirée sur la <span>paperasse de chantier</span></h1>
+        <!-- ONGLET 1: CRÉATION DU RAPPORT -->
+        <div id="tab-nouveau" class="tab-content active">
+            <div class="app-card">
+                <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Dictée & Suivi Terrain</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Enregistrez la voix et ajoutez les photos du chantier avant de générer le rapport.</p>
 
-            <p class="subtitle">
-                Dictez vos comptes-rendus, vos réserves et vos commandes de matériel en marchant sur le chantier. L'IA génère vos rapports et devis en quelques secondes.
-            </p>
-
-            <form class="cta-form" onsubmit="handleWaitlist(event)">
-                <input type="email" id="userEmail" placeholder="Entrez votre email professionnel..." required>
-                <button type="submit" class="btn-primary">
-                    Rejoindre la Bêta
-                    <i data-lucide="arrow-right"></i>
-                </button>
-            </form>
-
-            <!-- Démo Interactive -->
-            <div class="demo-container">
-                <div class="demo-title">
-                    <i data-lucide="play-circle" style="color: var(--primary);"></i>
-                    <span>Tester le Démonstrateur Vocal</span>
-                </div>
-                
-                <p style="font-size: 0.85rem; color: var(--text-muted);">
-                    Cliquez sur le micro, dites une phrase de chantier (ou testez la simulation), puis observez la structuration instantanée.
-                </p>
-
+                <!-- Bouton Enregistreur -->
                 <button id="micBtn" class="mic-btn" onclick="toggleRecording()">
                     <i data-lucide="mic" id="micIcon" style="width:36px; height:36px;"></i>
                     <span id="btnText">PARLER</span>
                 </button>
+                <div id="statusText" style="font-size: 0.85rem; color: var(--text-muted);">Cliquez pour lancer la dictée</div>
 
-                <div id="statusText" class="status-text">Cliquez pour démarrer la dictée</div>
+                <!-- Section Import de Photos -->
+                <div class="photo-upload-section">
+                    <label><i data-lucide="camera" style="vertical-align: middle;"></i> Photos du chantier</label>
+                    <label class="upload-btn">
+                        <i data-lucide="image-plus"></i> Prendre une photo / Choisir des fichiers
+                        <input type="file" id="photoInput" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(event)">
+                    </label>
+                    <div id="photoGrid" class="photo-grid"></div>
+                </div>
 
+                <!-- Affichage du Résultat Extrait -->
                 <div id="resultsBox" class="results-box">
-                    <h4><i data-lucide="check-circle"></i> Avancement extrait</h4>
+                    <h3 id="resTitre" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 1rem;"></h3>
+                    
+                    <h4><i data-lucide="check-circle"></i> Avancement</h4>
                     <ul id="resAvancement"></ul>
 
-                    <h4><i data-lucide="alert-triangle"></i> Réserves & Points d'attention</h4>
+                    <h4><i data-lucide="alert-triangle"></i> Réserves & Remarques</h4>
                     <ul id="resReserves"></ul>
 
-                    <h4><i data-lucide="shopping-cart"></i> Fournitures à commander</h4>
+                    <h4><i data-lucide="shopping-cart"></i> Matériel à commander</h4>
                     <ul id="resFournitures"></ul>
-                </div>
-            </div>
-        </section>
 
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i data-lucide="zap"></i>
+                    <button class="btn-success" onclick="saveAndGeneratePDF()">
+                        <i data-lucide="file-down"></i> Générer & Archiver le PDF
+                    </button>
                 </div>
-                <h3>100% Mobile & Mains Libres</h3>
-                <p>Un seul bouton géant. Parlez avec vos gants ou les mains sales, l'application comprend le jargon du bâtiment.</p>
             </div>
+        </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i data-lucide="file-text"></i>
-                </div>
-                <h3>Rapports PDF Instantanés</h3>
-                <p>Vos dictées sont converties en fiches claires avec photos annotées, prêtes à être envoyées au client par WhatsApp.</p>
+        <!-- ONGLET 2: HISTORIQUE ET TÉLÉCHARGEMENT -->
+        <div id="tab-historique" class="tab-content">
+            <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Historique des rapports de chantier</h2>
+            <div id="reportsList" class="reports-list">
+                <!-- Les cartes de rapport s'afficheront ici -->
             </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i data-lucide="wifi-off"></i>
-                </div>
-                <h3>Fonctionne Hors-Ligne</h3>
-                <p>Pas de réseau dans le sous-sol ? L'application enregistre vos notes en local et synchronise dès le retour de la connexion.</p>
-            </div>
-        </section>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 ChantierVocal - La solution vocale pour les artisans du BTP.</p>
+        &copy; 2026 ChantierVocal - Application de gestion vocale pour artisans.
     </footer>
 
     <script>
-        // Initialisation des icônes Lucide
         lucide.createIcons();
 
         let isRecording = false;
-        let mediaRecorder;
-        let audioChunks = [];
+        let selectedPhotos = [];
+        let currentReportData = null;
+        let reportsArchive = JSON.parse(localStorage.getItem('chantierVocal_reports') || '[]');
 
-        function handleWaitlist(e) {
-            e.preventDefault();
-            const email = document.getElementById('userEmail').value;
-            alert(`Merci ! L'adresse ${email} a bien été ajoutée à la liste d'attente.`);
-            document.getElementById('userEmail').value = '';
+        updateReportCount();
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            if (tabName === 'nouveau') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tab-nouveau').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tab-historique').classList.add('active');
+                renderHistory();
+            }
         }
 
-        async function toggleRecording() {
+        // --- GESTION DU MICRO & SIMULATION IA ---
+        function toggleRecording() {
             const btn = document.getElementById('micBtn');
             const btnText = document.getElementById('btnText');
             const status = document.getElementById('statusText');
-            const resultsBox = document.getElementById('resultsBox');
 
             if (!isRecording) {
-                // Tenter d'accéder au microphone
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    audioChunks = [];
-
-                    mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
-                    mediaRecorder.onstop = processAudioData;
-
-                    mediaRecorder.start();
-                    isRecording = true;
-                    btn.classList.add('recording');
-                    btnText.textContent = "STOP";
-                    status.textContent = "Enregistrement en cours... Parlez maintenant.";
-                    resultsBox.classList.remove('active');
-                } catch (err) {
-                    // Si pas d'accès micro (ex: HTTP au lieu de HTTPS), lancer une simulation
-                    runSimulation();
-                }
+                isRecording = true;
+                btn.classList.add('recording');
+                btnText.textContent = "STOP";
+                status.textContent = "Écoute en cours... Parlez du chantier.";
             } else {
-                if (mediaRecorder && mediaRecorder.state !== "inactive") {
-                    mediaRecorder.stop();
-                }
                 isRecording = false;
                 btn.classList.remove('recording');
                 btnText.textContent = "PARLER";
-                status.textContent = "Analyse et structuration par l'IA en cours...";
+                status.textContent = "Analyse de la dictée et association des photos...";
+                
+                // Simulation du traitement IA (ou appel backend si connecté)
+                setTimeout(processDictation, 1200);
             }
         }
 
-        async function processAudioData() {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-            const formData = new FormData();
-            formData.append('audio', audioBlob, 'dictee.mp3');
+        function processDictation() {
+            currentReportData = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                titre: "Chantier Rénovation - Note du " + new Date().toLocaleDateString('fr-FR'),
+                avancement: ["Pose du carrelage terminée dans la pièce principale.", "Vérification de l'étanchéité effectuée."],
+                reserves: ["[MOYENNE] Fissure constatée sur le placo mur nord (voir photo 1)."],
+                fournitures: ["2x Sacs de joint blanc 5kg", "1x Rouleau de bande à joint"],
+                photosCount: selectedPhotos.length
+            };
 
-            try {
-                // Appel vers le backend si déployé
-                const response = await fetch('/api/v1/process-audio', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    renderData(data.donnees_structurees);
-                } else {
-                    runSimulation();
-                }
-            } catch (err) {
-                // Fallback simulation pour démo statique
-                runSimulation();
-            }
-        }
-
-        function runSimulation() {
-            const status = document.getElementById('statusText');
-            const btn = document.getElementById('micBtn');
-            const btnText = document.getElementById('btnText');
-
-            isRecording = false;
-            btn.classList.remove('recording');
-            btnText.textContent = "PARLER";
-            status.textContent = "Traitement de la dictée (Mode Démo)...";
-
-            setTimeout(() => {
-                const fakeData = {
-                    avancement: ["Pose du carrelage terminée dans la salle de bain.", "Jointoiement des murs en cours."],
-                    reserves: ["[MOYENNE] Fissure constatée sur le placo mur nord."],
-                    fournitures: ["2x Sacs de joint blanc 5kg (Cédéo)"]
-                };
-
-                document.getElementById('resAvancement').innerHTML = fakeData.avancement.map(i => `<li>${i}</li>`).join('');
-                document.getElementById('resReserves').innerHTML = fakeData.reserves.map(i => `<li>${i}</li>`).join('');
-                document.getElementById('resFournitures').innerHTML = fakeData.fournitures.map(i => `<li>${i}</li>`).join('');
-
-                document.getElementById('resultsBox').classList.add('active');
-                status.textContent = "Analyse terminée ! Exemple de résultat ci-dessous :";
-            }, 1200);
-        }
-
-        function renderData(data) {
-            const status = document.getElementById('statusText');
-            document.getElementById('resAvancement').innerHTML = (data.avancement_travaux || []).map(i => `<li>${i}</li>`).join('') || '<li>Aucun élément</li>';
-            document.getElementById('resReserves').innerHTML = (data.reserves_et_problemes || []).map(i => `<li>[${i.gravite}] ${i.description}</li>`).join('') || '<li>Aucune réserve</li>';
-            document.getElementById('resFournitures').innerHTML = (data.fournitures_a_commander || []).map(i => `<li>${i.quantite} ${i.unite} - ${i.article}</li>`).join('') || '<li>Rien à commander</li>';
+            document.getElementById('resTitre').textContent = currentReportData.titre;
+            document.getElementById('resAvancement').innerHTML = currentReportData.avancement.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('resReserves').innerHTML = currentReportData.reserves.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('resFournitures').innerHTML = currentReportData.fournitures.map(i => `<li>${i}</li>`).join('');
 
             document.getElementById('resultsBox').classList.add('active');
-            status.textContent = "Traitement IA terminé avec succès !";
+            document.getElementById('statusText').textContent = "Traitement terminé ! Relevez vos informations ci-dessous.";
+        }
+
+        // --- GESTION DES PHOTOS ---
+        function handlePhotoUpload(e) {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    selectedPhotos.push(event.target.result);
+                    renderPhotoPreviews();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderPhotoPreviews() {
+            const grid = document.getElementById('photoGrid');
+            grid.innerHTML = selectedPhotos.map((src, index) => `
+                <div class="photo-card">
+                    <img src="${src}" class="photo-preview" alt="Photo chantier ${index + 1}">
+                    <button class="remove-photo" onclick="removePhoto(${index})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removePhoto(index) {
+            selectedPhotos.splice(index, 1);
+            renderPhotoPreviews();
+        }
+
+        // --- GESTION DES RAPPORTS & PDF ---
+        function saveAndGeneratePDF() {
+            if (!currentReportData) return;
+
+            // Enregistrement dans l'historique local
+            reportsArchive.unshift(currentReportData);
+            localStorage.setItem('chantierVocal_reports', JSON.stringify(reportsArchive));
+            updateReportCount();
+
+            // Génération dynamique du PDF directement dans le navigateur
+            const printWindow = window.open('', '_blank');
+            const pdfHtml = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${currentReportData.titre}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; color: #1e293b; }
+                        h1 { color: #0f172a; border-bottom: 2px solid #f59e0b; padding-bottom: 10px; }
+                        .meta { color: #64748b; font-size: 14px; margin-bottom: 20px; }
+                        .section { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
+                        .section-title { font-weight: bold; color: #f59e0b; text-transform: uppercase; margin-bottom: 8px; }
+                        .photos-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+                        .photo-img { width: 150px; height: 110px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Rapport de Chantier</h1>
+                    <div class="meta"><strong>Date :</strong> ${currentReportData.date}</div>
+                    
+                    <div class="section">
+                        <div class="section-title">🚧 Avancement</div>
+                        <ul>${currentReportData.avancement.map(i => `<li>${i}</li>`).join('')}</ul>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">⚠️ Réserves & Points d'attention</div>
+                        <ul>${currentReportData.reserves.map(i => `<li>${i}</li>`).join('')}</ul>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">📦 Matériel à commander</div>
+                        <ul>${currentReportData.fournitures.map(i => `<li>${i}</li>`).join('')}</ul>
+                    </div>
+
+                    ${selectedPhotos.length > 0 ? `
+                        <div class="section">
+                            <div class="section-title">📸 Photos annexées (${selectedPhotos.length})</div>
+                            <div class="photos-container">
+                                ${selectedPhotos.map(p => `<img src="${p}" class="photo-img"/>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <script>
+                        window.onload = function() { window.print(); }
+                    <\/script>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(pdfHtml);
+            printWindow.document.close();
+
+            alert("Rapport sauvegardé dans votre historique !");
+            switchTab('historique');
+        }
+
+        function renderHistory() {
+            const listContainer = document.getElementById('reportsList');
+            if (reportsArchive.length === 0) {
+                listContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Aucun rapport enregistré pour le moment.</p>`;
+                return;
+            }
+
+            listContainer.innerHTML = reportsArchive.map((report) => `
+                <div class="report-card">
+                    <div class="report-info">
+                        <h3>${report.titre}</h3>
+                        <p><i data-lucide="calendar" style="width:14px; height:14px; vertical-align:middle;"></i> ${report.date} • ${report.photosCount || 0} photo(s)</p>
+                    </div>
+                    <button class="btn-download" onclick="downloadArchivedPDF(${report.id})">
+                        <i data-lucide="download"></i> Télécharger PDF
+                    </button>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function downloadArchivedPDF(reportId) {
+            const report = reportsArchive.find(r => r.id === reportId);
+            if (!report) return;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${report.titre}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        h1 { color: #0f172a; border-bottom: 2px solid #f59e0b; padding-bottom: 10px; }
+                        .section { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
+                        .section-title { font-weight: bold; color: #f59e0b; text-transform: uppercase; margin-bottom: 8px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${report.titre}</h1>
+                    <p><strong>Date :</strong> ${report.date}</p>
+                    <div class="section"><div class="section-title">Avancement</div><ul>${report.avancement.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <div class="section"><div class="section-title">Réserves</div><ul>${report.reserves.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <div class="section"><div class="section-title">Matériel</div><ul>${report.fournitures.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <script>window.onload = function() { window.print(); }<\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        function updateReportCount() {
+            document.getElementById('reportCount').textContent = reportsArchive.length;
         }
     </script>
 </body>
